@@ -25,7 +25,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Node.js and npm
-RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
+RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - && \
     apt-get install -y nodejs && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
@@ -45,24 +45,5 @@ RUN groupadd -g $gid $user && \
     mkdir -p /var/www && \
     chown -R $user:$user /var/www
 
-# Set working directory
-# WORKDIR /var/www
-
-# Copy application files to the container
-# COPY . /var/www/
-
-# Copy SSL certificates for Nginx (optional if not required for PHP-FPM)
-# COPY ./docker/nginx/selfsigned.crt /etc/ssl/certs/selfsigned.crt
-# COPY ./docker/nginx/selfsigned.key /etc/ssl/private/selfsigned.key
-
 # Copy custom php.ini for upload limits
 COPY ./docker/php/php.ini /usr/local/etc/php/
-
-# Install Composer dependencies
-# RUN composer update && composer dump-autoload && composer install --no-dev --optimize-autoloader
-
-# Expose port 9000 for PHP-FPM
-# EXPOSE 9000
-
-# Start PHP-FPM server
-# CMD ["php-fpm"]
